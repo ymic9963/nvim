@@ -23,14 +23,14 @@ vim.opt.cursorline = true -- Cursor highlight line
 vim.opt.signcolumn = "yes" -- Sign column next to lines
 vim.opt.scrolloff = 10
 vim.opt.winborder= "rounded"
+vim.opt.pumborder= "rounded"
 vim.opt.path:append{"**"} -- Use :find for all subdirectories
 vim.opt.completeopt = { "menuone", "noselect", "popup", "fuzzy" }
 vim.opt.wildoptions:append{"fuzzy"} -- Fuzzy wild menu
 vim.opt.foldenable = false
-vim.opt.foldcolumn = '0'
-vim.opt.foldtext = " "
-vim.opt.foldmethod = "indent"
-vim.opt.foldlevel = 99
+vim.opt.foldcolumn = "0"
+vim.opt.foldtext = ""
+vim.opt.foldlevelstart = 99
 
 -- Check this issue to see if pwsh can finally be used with :te and no :te pwsh, https://github.com/neovim/neovim/issues/31494
 vim.opt.shell = 'pwsh'
@@ -41,7 +41,7 @@ vim.opt.shellquote = ''
 vim.opt.shelltemp = false
 vim.env.__SuppressAnsiEscapeSequences=1
 
-vim.cmd('colorscheme nanos') -- Colourscheme
+vim.cmd.colorscheme('nanos') -- Colourscheme
 --END-SETTINGS---
 
 --REMAPS--
@@ -67,111 +67,70 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase w
 --END-REMAPS--
 
 --PLUGINS--
+local github = "https://github.com/"
 
--- Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-    if vim.v.shell_error ~= 0 then
-        vim.api.nvim_echo({
-            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-            { out, "WarningMsg" },
-            { "\nPress any key to exit..." },
-        }, true, {})
-        vim.fn.getchar()
-        os.exit(1)
-    end
-end
-vim.opt.rtp:prepend(lazypath)
+vim.pack.add({ github .. "neovim/nvim-lspconfig" })
 
--- Setup lazy.nvim
-require("lazy").setup({
-    dev = {
-        path = "~/AppData/Local/"
-    },
-    spec = {
-        { "mason-org/mason.nvim", opts = {} },
-        { "neovim/nvim-lspconfig" },
-        { "jiaoshijie/undotree", keys = { {"<leader>ut", "<cmd>lua require('undotree').toggle()<cr>", "n", desc = "Toggle Undotree"}, }, },
-        { "catgoose/nvim-colorizer.lua", lazy = true, opts = {}, cmd= {"ColorizerToggle"} },
-        { "tpope/vim-fugitive", cmd = {"Git"} },
-        {
-            'rmagatti/auto-session',
-            lazy = false,
-            opts = {
-                suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
-                lazy_support = true,
-                auto_restore = false, -- Enables/disables auto restoring session on start
-                auto_create = false, -- Enables/disables auto creating new session files. Can take a function that should return true/false if a new session file should be created or not
-                auto_restore_last_session = false, -- On startup, loads the last saved session if session for cwd does not exist
-            },
-            keys = {
-                { "<leader>sl", ":AutoSession search<CR>", desc = "List sessions", },
-                { "<leader>ss", ":AutoSession save", desc = "Save session", },
-                { "<leader>sd", ":AutoSession delete", desc = "Delete session", },
-                { "<leader>sr", ":AutoSession restore", desc = "Restore session", },
-            },
-        },
-        {
-            'OXY2DEV/markview.nvim',
-            lazy = false,
-        },
-        {
-            'brianhuster/live-preview.nvim',
-            opts = {
-                port = 55555,
-            },
-            cmd = {"LivePreview"}
-        },
-        {
-            "danymat/neogen",
-            opts = {
-                enabled = true,
-                languages = {
-                    python = {
-                        template = {
-                            annotation_convention = "reST"
-                        }
-                    },
-                }
-            },
-            lazy = true,
-            cmd = { "Neogen" },
-        },
-        {
-            "nvim-treesitter/nvim-treesitter",
-            branch = "main",
-            lazy = false,
-            build = ":TSUpdate",
-        },
-        {
-            "nvim-treesitter/nvim-treesitter-context",
-            dependencies = {
-                "nvim-treesitter/nvim-treesitter",
-            },
-            event = 'BufEnter',
-            opts =  {
-                max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
+vim.pack.add({ github .. "rmagatti/auto-session" })
+require("auto-session").setup({
+    suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
+    auto_restore = false, -- Enables/disables auto restoring session on start
+    auto_create = false, -- Enables/disables auto creating new session files. Can take a function that should return true/false if a new session file should be created or not
+    auto_restore_last_session = false, -- On startup, loads the last saved session if session for cwd does not exist
+})
+vim.keymap.set("n", "<leader>sl", "<cmd>AutoSession search<CR>", {desc = "List sessions", })
+
+vim.pack.add({ github .. "mason-org/mason.nvim" })
+require("mason").setup()
+
+vim.pack.add({ github .. "OXY2DEV/markview.nvim" })
+
+vim.pack.add({ github .. "nvim-treesitter/nvim-treesitter" })
+
+vim.pack.add({ github .. "nvim-treesitter/nvim-treesitter-context" })
+require("treesitter-context").setup({
+    max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
+})
+
+-- Would like to eventually load these ones with :packadd
+vim.pack.add({ github .. "nvim-mini/mini.test" })
+require("mini.test").setup()
+
+vim.pack.add({ github .. "brianhuster/live-preview.nvim" })
+require('livepreview.config').set({
+    port = 55555,
+})
+
+vim.pack.add({ github .. "catgoose/nvim-colorizer.lua" })
+require("colorizer").setup({})
+
+vim.pack.add({ github .. "danymat/neogen" })
+require("neogen").setup({
+    enabled = true,
+    languages = {
+        python = {
+            template = {
+                annotation_convention = "reST"
             }
-        },
-        {
-            "ymich9963/mdnotes.nvim",
-            opts = {
-                assets_path = "assets",
-                default_keymaps = true,
-            },
-            dev = true
-        },
-        {
-            'nvim-mini/mini.test',
-            version = '*',
-            config = function() require('mini.test').setup() end
         },
     }
 })
 
-vim.cmd('packadd nohlsearch') -- Automatically turn off search highlighting
+vim.cmd.packadd('nohlsearch') -- Automatically turn off search highlighting
+vim.cmd.packadd('nvim.undotree')
+vim.cmd.packadd('nvim.difftool')
+
+-- mdnotes dev
+vim.opt.rtp:append(vim.fn.stdpath("data") .. "/../mdnotes.nvim")
+vim.opt.rtp:append(vim.fn.stdpath("data") .. "/../mdnotes.nvim/after")
+require("mdnotes").setup({
+    journal_file = function()
+        local files = require('mdnotes').get_files_in_cwd({ fs_type = "file", pattern = ".*journal.md" })
+        return files[1]
+    end,
+    assets_path = "assets",
+    default_keymaps = true,
+})
 --END-PLUGINS--
 
 --LSP--
@@ -207,7 +166,8 @@ vim.lsp.config("lua_ls", {
                 checkThirdParty = false,
                 library = {
                     vim.env.VIMRUNTIME,
-                    '${3rd}/luv/library'
+                    '${3rd}/luv/library',
+                    -- require('mdnotes').plugin_install_directory
                 }
             },
         },
@@ -301,6 +261,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 -- From https://github.com/nvim-treesitter/nvim-treesitter/issues/8221#issuecomment-3436658280
 vim.api.nvim_create_autocmd("FileType", {
+    pattern = { '<filetype>' },
     group = config_augroup,
     callback = function(args)
         local treesitter = require('nvim-treesitter')
@@ -380,5 +341,4 @@ vim.api.nvim_create_user_command('ListCustomKeymaps', function()
     vim.api.nvim_buf_set_lines(buff, 0, -1, false, lines)
 end,
 { desc = 'List keymaps' })
-
 --END-COMMANDS--

@@ -1,12 +1,9 @@
 # Neovim Config
-<a href="https://dotfyle.com/ymich9963/nvim-config"><img src="https://dotfyle.com/ymich9963/nvim-config/badges/plugins?style=plastic" /></a>
-<a href="https://dotfyle.com/ymich9963/nvim-config"><img src="https://dotfyle.com/ymich9963/nvim-config/badges/leaderkey?style=plastic" /></a>
-<a href="https://dotfyle.com/ymich9963/nvim-config"><img src="https://dotfyle.com/ymich9963/nvim-config/badges/plugin-manager?style=plastic" /></a>
+yes
 
 ## Plugins
 Using,
 
-- [lazy.nvim](https://github.com/folke/lazy.nvim.git): Plugin Manager.
 - [catgoose/nvim-colorizer.lua](https://github.com/catgoose/nvim-colorizer.lua): View colour codes. 
 - [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim): LSP Manager.
 - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): NeoVim LSP.
@@ -17,7 +14,6 @@ Using,
 - [nvim-treesitter/nvim-treesitter-context](https://github.com/nvim-treesitter/nvim-treesitter-context.git): Current code context.
 - [jiaoshijie/undotree](https://github.com/jiaoshijie/undotree.git): Undo Tree.
 - [rmagatti/auto-session](https://github.com/rmagatti/auto-session.git): Session manager.
-- [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive.git): Git integration for Vim.
 
 ## Structure
 - `colors/` contains `nanos` colorscheme.
@@ -26,14 +22,10 @@ Using,
 
 ## Setup
 ### Windows
-```
-git clone https://github.com/ymich9963/nvim $HOME\AppData\Local\nvim
-``` 
+Clone to `~\AppData\Local\nvim`.
+
 ### Linux
-```
-git clone https://github.com/ymich9963/nvim ~/.config/nvim
-``` 
-Then run `:Lazy sync` to make sure everything is working
+Clone to `~/.config/nvim`.
 
 ## Comments
 - Using [Inconsolata](https://fonts.google.com/specimen/Inconsolata) Regular as the font.
