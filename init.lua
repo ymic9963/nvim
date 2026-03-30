@@ -69,6 +69,18 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase w
 --PLUGINS--
 local github = "https://github.com/"
 
+-- mdnotes dev
+vim.opt.rtp:append(vim.fs.normalize(vim.fn.stdpath("data") .. "/../mdnotes.nvim"))
+vim.opt.rtp:append(vim.fs.normalize(vim.fn.stdpath("data") .. "/../mdnotes.nvim/after"))
+require("mdnotes").setup({
+    journal_file = function()
+        local files = require('mdnotes').get_files_in_cwd({ fs_type = "file", pattern = ".*journal.md" })
+        return files[1]
+    end,
+    assets_path = "assets",
+    default_keymaps = true,
+})
+
 vim.pack.add({ github .. "neovim/nvim-lspconfig" })
 
 vim.pack.add({ github .. "rmagatti/auto-session" })
@@ -120,17 +132,6 @@ vim.cmd.packadd('nohlsearch') -- Automatically turn off search highlighting
 vim.cmd.packadd('nvim.undotree')
 vim.cmd.packadd('nvim.difftool')
 
--- mdnotes dev
-vim.opt.rtp:append(vim.fn.stdpath("data") .. "/../mdnotes.nvim")
-vim.opt.rtp:append(vim.fn.stdpath("data") .. "/../mdnotes.nvim/after")
-require("mdnotes").setup({
-    journal_file = function()
-        local files = require('mdnotes').get_files_in_cwd({ fs_type = "file", pattern = ".*journal.md" })
-        return files[1]
-    end,
-    assets_path = "assets",
-    default_keymaps = true,
-})
 --END-PLUGINS--
 
 --LSP--
@@ -167,7 +168,7 @@ vim.lsp.config("lua_ls", {
                 library = {
                     vim.env.VIMRUNTIME,
                     '${3rd}/luv/library',
-                    -- require('mdnotes').plugin_install_directory
+                    require('mdnotes').plugin_install_directory
                 }
             },
         },
@@ -259,15 +260,26 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 })
 
+-- These come pre-built with Neovim so no need to re-install
+local pre_installed_parsers = {
+    "c",
+    "lua",
+    "markdown",
+    "markdown_inline",
+    "query",
+    "vim",
+    "vimdoc",
+}
+
 -- From https://github.com/nvim-treesitter/nvim-treesitter/issues/8221#issuecomment-3436658280
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { '<filetype>' },
     group = config_augroup,
     callback = function(args)
         local treesitter = require('nvim-treesitter')
         local lang = vim.treesitter.language.get_lang(args.match)
         if vim.list_contains(treesitter.get_available(), lang) then
-            if not vim.list_contains(treesitter.get_installed(), lang) then
+            if not vim.list_contains(treesitter.get_installed(), lang)
+                and not vim.list_contains(pre_installed_parsers, lang) then
                 treesitter.install(lang):wait()
             end
             vim.treesitter.start(args.buf)
