@@ -81,57 +81,41 @@ require("mdnotes").setup({
     default_keymaps = true,
 })
 
-vim.pack.add({ github .. "neovim/nvim-lspconfig" })
+vim.pack.add({
+    github .. "neovim/nvim-lspconfig",
+    github .. "mason-org/mason.nvim",
+    github .. "rmagatti/auto-session",
+    github .. "OXY2DEV/markview.nvim",
+    github .. "nvim-treesitter/nvim-treesitter",
+    github .. "nvim-treesitter/nvim-treesitter-context",
+})
 
-vim.pack.add({ github .. "rmagatti/auto-session" })
+-- Call :packadd and setup() for these
+vim.pack.add({
+    github .. "nvim-mini/mini.test",
+    github .. "brianhuster/live-preview.nvim",
+    github .. "catgoose/nvim-colorizer.lua",
+    github .. "danymat/neogen",
+}, {
+    load = function() end
+})
+
+require("mason").setup()
 require("auto-session").setup({
     suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
     auto_restore = false, -- Enables/disables auto restoring session on start
     auto_create = false, -- Enables/disables auto creating new session files. Can take a function that should return true/false if a new session file should be created or not
     auto_restore_last_session = false, -- On startup, loads the last saved session if session for cwd does not exist
 })
-vim.keymap.set("n", "<leader>sl", "<cmd>AutoSession search<CR>", {desc = "List sessions", })
-
-vim.pack.add({ github .. "mason-org/mason.nvim" })
-require("mason").setup()
-
-vim.pack.add({ github .. "OXY2DEV/markview.nvim" })
-
-vim.pack.add({ github .. "nvim-treesitter/nvim-treesitter" })
-
-vim.pack.add({ github .. "nvim-treesitter/nvim-treesitter-context" })
 require("treesitter-context").setup({
     max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
-})
-
--- Would like to eventually load these ones with :packadd
-vim.pack.add({ github .. "nvim-mini/mini.test" })
-require("mini.test").setup()
-
-vim.pack.add({ github .. "brianhuster/live-preview.nvim" })
-require('livepreview.config').set({
-    port = 55555,
-})
-
-vim.pack.add({ github .. "catgoose/nvim-colorizer.lua" })
-require("colorizer").setup({})
-
-vim.pack.add({ github .. "danymat/neogen" })
-require("neogen").setup({
-    enabled = true,
-    languages = {
-        python = {
-            template = {
-                annotation_convention = "reST"
-            }
-        },
-    }
 })
 
 vim.cmd.packadd('nohlsearch') -- Automatically turn off search highlighting
 vim.cmd.packadd('nvim.undotree')
 vim.cmd.packadd('nvim.difftool')
 
+vim.keymap.set("n", "<leader>sl", "<cmd>AutoSession search<CR>", {desc = "List sessions", })
 --END-PLUGINS--
 
 --LSP--
