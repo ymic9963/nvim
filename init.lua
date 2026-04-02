@@ -69,18 +69,6 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase w
 --PLUGINS--
 local github = "https://github.com/"
 
--- mdnotes dev
-vim.opt.rtp:append(vim.fs.normalize(vim.fn.stdpath("data") .. "/../mdnotes.nvim"))
-vim.opt.rtp:append(vim.fs.normalize(vim.fn.stdpath("data") .. "/../mdnotes.nvim/after"))
-require("mdnotes").setup({
-    journal_file = function()
-        local files = require('mdnotes').get_files_in_cwd({ fs_type = "file", pattern = ".*journal.md" })
-        return files[1]
-    end,
-    assets_path = "assets",
-    default_keymaps = true,
-})
-
 vim.pack.add({
     github .. "neovim/nvim-lspconfig",
     github .. "mason-org/mason.nvim",
@@ -90,7 +78,7 @@ vim.pack.add({
     github .. "nvim-treesitter/nvim-treesitter-context",
 })
 
--- Call :packadd and setup() for these
+-- Call :LoadUnloadedPlugins for this
 vim.pack.add({
     github .. "nvim-mini/mini.test",
     github .. "brianhuster/live-preview.nvim",
@@ -116,18 +104,27 @@ vim.cmd.packadd('nvim.undotree')
 vim.cmd.packadd('nvim.difftool')
 
 vim.keymap.set("n", "<leader>sl", "<cmd>AutoSession search<CR>", {desc = "List sessions", })
+
+-- mdnotes dev in site/pack/dev/opt
+vim.cmd.packadd("mdnotes.nvim")
+require("mdnotes").setup({
+    journal_file = function()
+        local files = require('mdnotes').get_files_in_cwd({ fs_type = "file", pattern = ".*journal.md" })
+        return files[1]
+    end,
+    assets_path = "assets",
+    default_keymaps = true,
+})
 --END-PLUGINS--
 
 --LSP--
+-- Auto-install certain LSPs
 -- Names must be Mason package names
 local ensure_installed = {
     "clangd",
     "lua-language-server",
     "markdown-oxide",
-    "neocmakelsp",
-    "powershell-editor-services",
     "pyright",
-    "rstcheck"
 }
 
 local installed_package_names = require('mason-registry').get_installed_package_names()
@@ -162,6 +159,7 @@ vim.lsp.config("lua_ls", {
     end
 })
 
+-- Auto-enable LSPs
 -- From https://www.reddit.com/r/neovim/comments/1p0a576/comment/nphwtrg
 local installed_packages = require("mason-registry").get_installed_packages()
 local installed_lsp_names = vim.iter(installed_packages):fold({}, function(acc, pack)
@@ -337,4 +335,30 @@ vim.api.nvim_create_user_command('ListCustomKeymaps', function()
     vim.api.nvim_buf_set_lines(buff, 0, -1, false, lines)
 end,
 { desc = 'List keymaps' })
+
+vim.api.nvim_create_user_command('LoadUnloadedPlugins', function()
+    vim.cmd.packadd("mini.test")
+    require("mini.test").setup()
+
+    vim.cmd.packadd("live-preview.nvim")
+    require('livepreview.config').set({
+        port = 55555,
+    })
+
+    vim.cmd.packadd("nvim-colorizer.lua")
+    require("colorizer").setup()
+
+    vim.cmd.packadd("neogen")
+    require("neogen").setup({
+        enabled = true,
+        languages = {
+            python = {
+                template = {
+                    annotation_convention = "reST"
+                }
+            },
+        }
+    })
+end,
+{ desc = 'Load unloaded plugins' })
 --END-COMMANDS--
