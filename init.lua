@@ -78,16 +78,6 @@ vim.pack.add({
     github .. "nvim-treesitter/nvim-treesitter-context",
 })
 
--- Call :LoadUnloadedPlugins for this
-vim.pack.add({
-    github .. "nvim-mini/mini.test",
-    github .. "brianhuster/live-preview.nvim",
-    github .. "catgoose/nvim-colorizer.lua",
-    github .. "danymat/neogen",
-}, {
-    load = function() end
-})
-
 require("mason").setup()
 require("auto-session").setup({
     suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
@@ -115,6 +105,57 @@ require("mdnotes").setup({
     assets_path = "assets",
     default_keymaps = true,
 })
+
+-- Lazy loaded plugins
+vim.pack.add({
+    github .. "nvim-mini/mini.test",
+    github .. "brianhuster/live-preview.nvim",
+    github .. "catgoose/nvim-colorizer.lua",
+    github .. "danymat/neogen",
+}, {
+    load = function() end
+})
+
+-- From https://www.reddit.com/r/neovim/comments/1sdl9n8/comment/oerquyx
+local function lazy_load(command, callback)
+    vim.api.nvim_create_user_command(command, function(opts)
+        vim.api.nvim_del_user_command(command)
+        callback()
+        vim.cmd({ cmd = command, args = opts.fargs, bang = opts.bang })
+    end,
+    {
+        desc = 'Single use passthrough of user command with callback before main command call',
+        nargs = '*',
+        bang = true
+    })
+end
+
+
+lazy_load("LivePreview", function()
+    vim.cmd.packadd("live-preview.nvim")
+    require('livepreview.config').set({
+        port = 55555,
+    })
+end)
+
+lazy_load("ColorizerToggle", function()
+    vim.cmd.packadd("nvim-colorizer.lua")
+    require("colorizer").setup()
+end)
+
+lazy_load("Neogen", function()
+    vim.cmd.packadd("neogen")
+    require("neogen").setup({
+        enabled = true,
+        languages = {
+            python = {
+                template = {
+                    annotation_convention = "reST"
+                }
+            },
+        }
+    })
+end)
 --END-PLUGINS--
 
 --LSP--
@@ -335,30 +376,4 @@ vim.api.nvim_create_user_command('ListCustomKeymaps', function()
     vim.api.nvim_buf_set_lines(buff, 0, -1, false, lines)
 end,
 { desc = 'List keymaps' })
-
-vim.api.nvim_create_user_command('LoadUnloadedPlugins', function()
-    vim.cmd.packadd("mini.test")
-    require("mini.test").setup()
-
-    vim.cmd.packadd("live-preview.nvim")
-    require('livepreview.config').set({
-        port = 55555,
-    })
-
-    vim.cmd.packadd("nvim-colorizer.lua")
-    require("colorizer").setup()
-
-    vim.cmd.packadd("neogen")
-    require("neogen").setup({
-        enabled = true,
-        languages = {
-            python = {
-                template = {
-                    annotation_convention = "reST"
-                }
-            },
-        }
-    })
-end,
-{ desc = 'Load unloaded plugins' })
 --END-COMMANDS--
