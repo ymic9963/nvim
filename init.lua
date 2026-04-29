@@ -232,12 +232,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
         if not client then return end
 
-        -- Autocompletion
+        -- Autocompletion, see :h lsp-attach
         if client:supports_method("textDocument/completion") then
-            -- These three lines here are for auto-triggering on any keypress, I am unsure if I want this or not
-            -- local chars = {}
-            -- for i = 32, 126 do table.insert(chars, string.char(i)) end
-            -- client.server_capabilities.completionProvider.triggerCharacters = chars
             vim.lsp.completion.enable( true, client.id, ev.buf,
             {
                 autotrigger = true,
@@ -250,34 +246,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
                     return { abbr = abbr, menu = menu }
                 end
-            })
-        end
-
-        -- Documentation formatting when using auto-completion
-        if client:supports_method("completionItem/resolve") then
-            local _, cancel_prev = nil, function() end
-            vim.api.nvim_create_autocmd("CompleteChanged", {
-                group = config_augroup,
-                buffer = ev.buf,
-                callback = function(event)
-                    cancel_prev()
-                    local info = vim.fn.complete_info({ "selected" })
-                    local completionItem = vim.tbl_get(vim.v.completed_item, "user_data", "nvim", "lsp", "completion_item")
-                    if not completionItem then return end
-                    cancel_prev = vim.lsp.buf_request_all( event.buf, vim.lsp.protocol.Methods.completionItem_resolve, completionItem,
-                    function(results)
-                        if not results then return end
-                        for _, v in ipairs(results) do
-                            local item = v.result
-                            local docs = (item.documentation or {}).value
-                            local win = vim.api.nvim__complete_set(info["selected"], { info = docs })
-                            if win.winid and vim.api.nvim_win_is_valid(win.winid) then
-                                vim.treesitter.start(win.bufnr, item.documentation.kind)
-                                vim.wo[win.winid].conceallevel = 3
-                            end
-                        end
-                    end)
-                end,
             })
         end
     end
@@ -303,6 +271,7 @@ vim.api.nvim_create_autocmd("FileType", {
         if vim.list_contains(treesitter.get_available(), lang) then
             if not vim.list_contains(treesitter.get_installed(), lang)
                 and not vim.list_contains(pre_installed_parsers, lang) then
+                vim.notify("Installing treesitter parser...", vim.log.levels.WARN)
                 treesitter.install(lang):wait()
             end
             vim.treesitter.start(args.buf)
