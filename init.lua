@@ -330,11 +330,13 @@ vim.api.nvim_create_user_command('DeleteInactiveBuffers', function()
 end,
 { desc = 'Delete listed unmodified buffers that are not in a window' })
 
-vim.api.nvim_create_user_command('InsertLastMessage', function()
+vim.api.nvim_create_user_command('BrowseMessages', function()
     local messages = vim.split(vim.fn.execute('messages'), "\n")
-    vim.api.nvim_put({messages[#messages]}, "c", false, false)
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(buf, 0, 1, false, messages)
+    vim.cmd("vsplit | buffer" .. buf)
 end,
-{ desc = 'Insert the last message from :messages' })
+{ desc = 'Browse :messages in a scratch buffer' })
 
 -- From https://www.reddit.com/r/neovim/comments/1qb0qbf/i_replaced_whichkey_plugin_with_basic_lua_script/
 vim.api.nvim_create_user_command('ListCustomKeymaps', function()
