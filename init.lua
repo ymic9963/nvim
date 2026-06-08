@@ -288,6 +288,7 @@ vim.api.nvim_create_autocmd("WinEnter", {
         vim.fn.matchadd("INFO", 'INFO:')
         vim.fn.matchadd("FIX", 'FIX:')
         vim.fn.matchadd("BUG", 'BUG:')
+        vim.fn.matchadd("NOTE", 'NOTE:')
     end,
     desc = "Make the matches for the nanos colorscheme Special Comments at every window"
 })

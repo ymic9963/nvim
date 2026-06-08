@@ -59,8 +59,9 @@ hi! TabLineFill cterm=NONE gui=NONE " Fill between the tabs
 " Special Comments
 hi! TODO guibg=NvimLightCyan guifg=Black
 hi! INFO guibg=NvimLightBlue guifg=Black
-hi! FIX guibg=NvimLightYellow guifg=Black
+hi! FIX guibg=NvimLightMagenta guifg=Black
 hi! BUG guibg=NvimLightRed guifg=Black
+hi! NOTE guibg=NvimLightYellow guifg=Black
 
 " Tree-sitter
 hi! @operator guifg=#89ddff 
