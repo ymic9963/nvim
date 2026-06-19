@@ -2,7 +2,6 @@
 
 -- SETTINGS ---
 vim.g.mapleader = " " -- Leader
-vim.g.netrw_keepdir = 0
 vim.g.netrw_liststyle = 1 -- wide style with ls
 vim.g.netrw_banner = 0
 vim.g.netrw_special_syntax = true
@@ -309,6 +308,27 @@ vim.api.nvim_create_autocmd({ 'VimLeavePre' }, {
         end
     end,
     desc = "Delete empty temp ShaDa files"
+})
+
+-- Advanced :find, see :h fuzzy-file-picker
+local filescache = {}
+function _G.find(arg, _)
+    if vim.tbl_isempty(filescache) then
+        filescache = vim.fn.globpath('.', '**', true, true)
+        vim.tbl_filter(function(value) return not vim.fn.isdirectory(value) end,filescache)
+        vim.tbl_map(function(value) return vim.fn.fnamemodify(value, ':.') end, filescache)
+    end
+
+    return arg == '' and filescache or vim.fn.matchfuzzy(filescache, arg)
+end
+vim.o.findfunc = "v:lua.find"
+
+vim.api.nvim_create_autocmd("CmdlineEnter", {
+    pattern = { "*" },
+    group = config_augroup,
+    callback = function()
+        filescache = {}
+    end
 })
 --END-AUTOCOMMANDS--
 
