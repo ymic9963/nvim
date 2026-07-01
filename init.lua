@@ -44,7 +44,6 @@ vim.cmd.colorscheme('nanos') -- Colourscheme
 --END-SETTINGS---
 
 --REMAPS--
-vim.keymap.set("n", "<C-i>", "gg=G``", {desc = "Auto-indent and go back to position"})
 vim.keymap.set("n", "<leader>re", ":%s/<C-R><C-W>/", {desc = "Shortcut to replace current word under cursor"})
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", {desc = "Escape the terminal and go back to normal mode"})
 vim.keymap.set("n", "<leader>o", ":edit .<CR>", {desc= "Browse file directory"})
