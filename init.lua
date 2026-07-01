@@ -52,8 +52,6 @@ vim.keymap.set({"n", "v"}, "<leader>y", [["+y]], {desc = "Copy to system clipboa
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", {desc = "Move a selection down"})
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", {desc = "Move a selection up"})
 vim.keymap.set("n", "J", "mzJ`z", {desc = "Append line and cursor remains in the same place"})
-vim.keymap.set("n", "n", "nzzzv", {desc = "Keep cursor in the middle when searching"})
-vim.keymap.set("n", "N", "Nzzzv", {desc = "Keep cursor in the middle when searching"})
 vim.keymap.set("v", "<", "<gv", { desc = "Indent left and reselect" })
 vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
 vim.keymap.set("n", "<C-Up>", ":resize +2<CR>", { desc = "Increase window height" })
