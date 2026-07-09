@@ -71,6 +71,7 @@ vim.pack.add({
     github .. "OXY2DEV/markview.nvim",
     github .. "nvim-treesitter/nvim-treesitter",
     github .. "nvim-treesitter/nvim-treesitter-context",
+    github .. "tpope/vim-fugitive",
 })
 
 require("mason").setup()
