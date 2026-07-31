@@ -126,6 +126,11 @@ local function lazy_load(command, callback)
     })
 end
 
+-- Will give error but it's ok
+lazy_load("MiniTest", function()
+    vim.cmd.packadd("mini.test")
+    require('mini.test').setup()
+end)
 
 lazy_load("LivePreview", function()
     vim.cmd.packadd("live-preview.nvim")
