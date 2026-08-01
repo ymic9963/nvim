@@ -191,7 +191,7 @@ vim.lsp.config("lua_ls", {
                 library = {
                     vim.env.VIMRUNTIME,
                     '${3rd}/luv/library',
-                    require('mdnotes').plugin_install_directory
+                    require('mdnotes').plugin_install_dir
                 }
             },
         },
