@@ -23,7 +23,6 @@ vim.opt.signcolumn = "yes" -- Sign column next to lines
 vim.opt.scrolloff = 10
 vim.opt.winborder= "rounded"
 vim.opt.pumborder= "rounded"
-vim.opt.path:append{"**"} -- Use :find for all subdirectories
 vim.opt.completeopt = { "menuone", "noselect", "popup", "fuzzy" }
 vim.opt.wildoptions:append{"fuzzy"} -- Fuzzy wild menu
 vim.opt.foldenable = false
@@ -330,7 +329,8 @@ vim.api.nvim_create_autocmd("CmdlineEnter", {
     group = config_augroup,
     callback = function()
         filescache = {}
-    end
+    end,
+    description = "Advanced :find autocmd"
 })
 --END-AUTOCOMMANDS--
 
