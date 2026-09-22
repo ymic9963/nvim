@@ -2,21 +2,22 @@
 yes
 
 ## Plugins
-Using,
+- [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): NeoVim LSP
+- [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim): LSP Manager
+- [OXY2DEV/markview.nvim](https://github.com/OXY2DEV/markview.nvim): Live rendering of markdown files in browser.
+- [nvim-mini/mini.sessions](https://github.com/nvim-mini/mini.sessions): Session manager 
+- [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter.git): Syntax Highlighting
+- [nvim-treesitter/nvim-treesitter-context](https://github.com/nvim-treesitter/nvim-treesitter-context.git): Current code context
+- [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive): Git integration
 
-- [catgoose/nvim-colorizer.lua](https://github.com/catgoose/nvim-colorizer.lua): View colour codes. 
-- [williamboman/mason.nvim](https://github.com/williamboman/mason.nvim): LSP Manager.
-- [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): NeoVim LSP.
-- [danymat/neogen](https://github.com/danymat/neogen): Auto-generate doxygen data. 
-- [brianhuster/live-preview.nvim](https://github.com/brianhuster/live-preview.nvim): Live rendering of markdown files in browser. 
-- [OXY2DEV/markview.nvim](https://github.com/OXY2DEV/markview.nvim): Live rendering of markdown files in browser. 
-- [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter.git): Syntax Highlighting.
-- [nvim-treesitter/nvim-treesitter-context](https://github.com/nvim-treesitter/nvim-treesitter-context.git): Current code context.
-- [jiaoshijie/undotree](https://github.com/jiaoshijie/undotree.git): Undo Tree.
-- [rmagatti/auto-session](https://github.com/rmagatti/auto-session.git): Session manager.
+Lazy loaded:
+- [nvim-mini/mini.test](https://github.com/nvim-mini/mini.test): Lua testing suite
+-  [brianhuster/live-preview.nvim](https://github.com/brianhuster/live-preview.nvim): Live rendering of markdown files in browser 
+- [catgoose/nvim-colorizer.lua](https://github.com/catgoose/nvim-colorizer.lua): View colour codes
+- [danymat/neogen](https://github.com/danymat/neogen): Auto-generate doxygen data
 
 ## Structure
-- `colors/` contains `nanos` colorscheme.
+- `colors/` contains my `nanos` colorscheme.
 - `after/ftplugin` contains filetype-specific settings.
 - `init.lua` has everything else.
 

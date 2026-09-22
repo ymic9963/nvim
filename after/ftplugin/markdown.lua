@@ -1,4 +1,5 @@
 vim.wo[vim.api.nvim_get_current_win()][0].wrap = true -- Enable wrap for current .md buffer
+vim.opt.spell = true -- Enable spell checking for current .md buffer, see :h spell
 vim.diagnostic.enable(false, { bufnr = 0 }) -- Disable diagnostics for current .md buffer
 
 vim.keymap.set("i", "<C-x><C-f>", "<cmd>set isfname-=[,]<CR><C-x><C-f><cmd>set isfname+=[,]<CR>",

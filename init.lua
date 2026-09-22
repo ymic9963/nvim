@@ -66,20 +66,15 @@ local github = "https://github.com/"
 vim.pack.add({
     github .. "neovim/nvim-lspconfig",
     github .. "mason-org/mason.nvim",
-    github .. "rmagatti/auto-session",
     github .. "OXY2DEV/markview.nvim",
+    github .. "nvim-mini/mini.sessions",
     github .. "nvim-treesitter/nvim-treesitter",
     github .. "nvim-treesitter/nvim-treesitter-context",
     github .. "tpope/vim-fugitive",
 })
 
 require("mason").setup()
-require("auto-session").setup({
-    suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
-    auto_restore = false, -- Enables/disables auto restoring session on start
-    auto_create = false, -- Enables/disables auto creating new session files. Can take a function that should return true/false if a new session file should be created or not
-    auto_restore_last_session = false, -- On startup, loads the last saved session if session for cwd does not exist
-})
+require('mini.sessions').setup()
 require("treesitter-context").setup({
     max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
 })
@@ -88,7 +83,7 @@ vim.cmd.packadd('nohlsearch') -- Automatically turn off search highlighting
 vim.cmd.packadd('nvim.undotree')
 vim.cmd.packadd('nvim.difftool')
 
-vim.keymap.set("n", "<leader>sl", "<cmd>AutoSession search<CR>", {desc = "List sessions", })
+vim.keymap.set("n", "<leader>sl", "<cmd>lua MiniSessions.select()<CR>", {desc = "List sessions", })
 
 -- mdnotes dev in site/pack/dev/opt
 vim.cmd.packadd("mdnotes.nvim")
@@ -190,7 +185,6 @@ vim.lsp.config("lua_ls", {
                 library = {
                     vim.env.VIMRUNTIME,
                     '${3rd}/luv/library',
-                    require('mdnotes').plugin_install_dir
                 }
             },
         },
