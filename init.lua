@@ -24,7 +24,7 @@ vim.opt.scrolloff = 10
 vim.opt.winborder= "rounded"
 vim.opt.pumborder= "rounded"
 vim.opt.completeopt = { "menuone", "noselect", "popup", "fuzzy" }
-vim.opt.wildoptions:append{"fuzzy"} -- Fuzzy wild menu
+vim.opt.wildoptions:append("fuzzy") -- Fuzzy wild menu
 vim.opt.foldenable = false
 vim.opt.foldcolumn = "0"
 vim.opt.foldtext = ""
