@@ -324,7 +324,7 @@ vim.api.nvim_create_autocmd("CmdlineEnter", {
     callback = function()
         filescache = {}
     end,
-    description = "Advanced :find autocmd"
+    desc = "Advanced :find autocmd"
 })
 --END-AUTOCOMMANDS--
 
