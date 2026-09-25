@@ -109,11 +109,13 @@ vim.pack.add({
 })
 
 -- From https://www.reddit.com/r/neovim/comments/1sdl9n8/comment/oerquyx
-local function lazy_load(command, callback)
+local function lazy_load(command, callback, exec)
     vim.api.nvim_create_user_command(command, function(opts)
         vim.api.nvim_del_user_command(command)
         callback()
-        vim.cmd({ cmd = command, args = opts.fargs, bang = opts.bang })
+        if exec == true then
+            vim.cmd({ cmd = command, args = opts.fargs, bang = opts.bang })
+        end
     end,
     {
         desc = 'Single use passthrough of user command with callback before main command call',
@@ -122,11 +124,10 @@ local function lazy_load(command, callback)
     })
 end
 
--- Will give error but it's ok
 lazy_load("MiniTest", function()
     vim.cmd.packadd("mini.test")
     require('mini.test').setup()
-end)
+end, false)
 
 lazy_load("Neogen", function()
     vim.cmd.packadd("neogen")
@@ -140,7 +141,7 @@ lazy_load("Neogen", function()
             },
         }
     })
-end)
+end, true)
 --END-PLUGINS--
 
 --LSP--
