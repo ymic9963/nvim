@@ -128,18 +128,6 @@ lazy_load("MiniTest", function()
     require('mini.test').setup()
 end)
 
-lazy_load("LivePreview", function()
-    vim.cmd.packadd("live-preview.nvim")
-    require('livepreview.config').set({
-        port = 55555,
-    })
-end)
-
-lazy_load("ColorizerToggle", function()
-    vim.cmd.packadd("nvim-colorizer.lua")
-    require("colorizer").setup()
-end)
-
 lazy_load("Neogen", function()
     vim.cmd.packadd("neogen")
     require("neogen").setup({
@@ -328,6 +316,27 @@ vim.api.nvim_create_autocmd("CmdlineEnter", {
     end,
     desc = "Advanced :find autocmd"
 })
+
+-- Load setups on :packadd
+vim.api.nvim_create_autocmd("SourcePost", {
+    group = config_augroup,
+    callback = function(ev)
+        local pluginname = vim.fs.basename(ev.file)
+
+        -- live-preview
+        if pluginname == 'livepreview.lua' and not package.loaded['livepreview'] then
+            require('livepreview.config').set({
+                port = 55555,
+            })
+        end
+
+        -- colorizer
+        if pluginname == 'colorizer.lua' and not package.loaded['colorizer'] then
+            require("colorizer").setup()
+        end
+    end
+})
+
 --END-AUTOCOMMANDS--
 
 --COMMANDS--
