@@ -127,6 +127,7 @@ end
 lazy_load("MiniTest", function()
     vim.cmd.packadd("mini.test")
     require('mini.test').setup()
+    vim.notify_once("Plugin 'mini.test' loaded", vim.log.levels.INFO)
 end, false)
 
 lazy_load("Neogen", function()
@@ -141,6 +142,7 @@ lazy_load("Neogen", function()
             },
         }
     })
+    vim.notify_once("Plugin 'neogen' loaded", vim.log.levels.INFO)
 end, true)
 --END-PLUGINS--
 
