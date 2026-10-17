@@ -101,9 +101,9 @@ require("mdnotes").setup({
 -- Lazy loaded plugins
 vim.pack.add({
     github .. "nvim-mini/mini.test",
+    github .. "danymat/neogen",
     github .. "brianhuster/live-preview.nvim",
     github .. "catgoose/nvim-colorizer.lua",
-    github .. "danymat/neogen",
 }, {
     load = function() end
 })
@@ -124,13 +124,13 @@ local function lazy_load(command, callback, exec)
     })
 end
 
-lazy_load("MiniTest", function()
+lazy_load("LoadMiniTest", function()
     vim.cmd.packadd("mini.test")
     require('mini.test').setup()
     vim.notify_once("Plugin 'mini.test' loaded", vim.log.levels.INFO)
 end, false)
 
-lazy_load("Neogen", function()
+lazy_load("LoadNeogen", function()
     vim.cmd.packadd("neogen")
     require("neogen").setup({
         enabled = true,
@@ -144,6 +144,19 @@ lazy_load("Neogen", function()
     })
     vim.notify_once("Plugin 'neogen' loaded", vim.log.levels.INFO)
 end, true)
+
+lazy_load("LoadLivePreview", function()
+    vim.cmd.packadd("live-preview.nvim")
+    -- setup gets loaded on SourcePost event
+    vim.notify_once("Plugin 'live-preview.nvim' loaded", vim.log.levels.INFO)
+end, false)
+
+lazy_load("LoadColorizer", function()
+    vim.cmd.packadd("nvim-colorizer.lua")
+    -- setup gets loaded on SourcePost event
+    vim.notify_once("Plugin 'nvim-colorizer' loaded", vim.log.levels.INFO)
+end, false)
+
 --END-PLUGINS--
 
 --LSP--
