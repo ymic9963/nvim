@@ -110,13 +110,10 @@ vim.pack.add({
 })
 
 -- From https://www.reddit.com/r/neovim/comments/1sdl9n8/comment/oerquyx
-local function lazy_load(command, callback, exec)
-    vim.api.nvim_create_user_command(command, function(opts)
+local function lazy_load(command, callback)
+    vim.api.nvim_create_user_command(command, function()
         vim.api.nvim_del_user_command(command)
         callback()
-        if exec == true then
-            vim.cmd({ cmd = command, args = opts.fargs, bang = opts.bang })
-        end
     end,
     {
         desc = 'Single use passthrough of user command with callback before main command call',
@@ -129,7 +126,7 @@ lazy_load("LoadMiniTest", function()
     vim.cmd.packadd("mini.test")
     require('mini.test').setup()
     vim.notify_once("Plugin 'mini.test' loaded", vim.log.levels.INFO)
-end, false)
+end)
 
 lazy_load("LoadNeogen", function()
     vim.cmd.packadd("neogen")
@@ -144,19 +141,19 @@ lazy_load("LoadNeogen", function()
         }
     })
     vim.notify_once("Plugin 'neogen' loaded", vim.log.levels.INFO)
-end, true)
+end)
 
 lazy_load("LoadLivePreview", function()
     vim.cmd.packadd("live-preview.nvim")
     -- setup gets loaded on SourcePost event
     vim.notify_once("Plugin 'live-preview.nvim' loaded", vim.log.levels.INFO)
-end, false)
+end)
 
 lazy_load("LoadColorizer", function()
     vim.cmd.packadd("nvim-colorizer.lua")
     -- setup gets loaded on SourcePost event
     vim.notify_once("Plugin 'nvim-colorizer' loaded", vim.log.levels.INFO)
-end, false)
+end)
 
 --END-PLUGINS--
 
