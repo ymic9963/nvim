@@ -335,6 +335,7 @@ vim.api.nvim_create_autocmd("CmdlineEnter", {
 })
 
 -- Load setups on :packadd
+-- From https://github.com/justinmk/config/blob/master/.config/nvim/init.lua#L353-L360
 vim.api.nvim_create_autocmd("SourcePost", {
     group = config_augroup,
     callback = function(ev)
