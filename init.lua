@@ -166,7 +166,6 @@ end, false)
 local ensure_installed = {
     "clangd",
     "lua-language-server",
-    "markdown-oxide",
     "pyright",
 }
 
