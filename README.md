@@ -16,8 +16,8 @@ Lazy loaded:
 - [catgoose/nvim-colorizer.lua](https://github.com/catgoose/nvim-colorizer.lua): View colour codes
 - [danymat/neogen](https://github.com/danymat/neogen): Auto-generate doxygen data
 
+Using my [nanos](https://github.com/ymic9963/nanos.nvim) colorscheme.
 ## Structure
-- `colors/` contains my `nanos` colorscheme.
 - `after/ftplugin` contains filetype-specific settings.
 - `init.lua` has everything else.
 
