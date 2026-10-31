@@ -21,8 +21,8 @@ vim.opt.termguicolors = true -- Nice term colours
 vim.opt.cursorline = true -- Cursor highlight line
 vim.opt.signcolumn = "yes" -- Sign column next to lines
 vim.opt.scrolloff = 10
-vim.opt.winborder= "rounded"
-vim.opt.pumborder= "rounded"
+vim.opt.winborder = "rounded"
+vim.opt.pumborder = "rounded"
 vim.opt.completeopt = { "menuone", "noselect", "popup", "fuzzy" }
 vim.opt.wildoptions:append("fuzzy") -- Fuzzy wild menu
 vim.opt.foldenable = false
@@ -37,9 +37,10 @@ vim.opt.shellpipe  = '> %s 2>&1'
 vim.opt.shellxquote = ''
 vim.opt.shellquote = ''
 vim.opt.shelltemp = false
-vim.env.__SuppressAnsiEscapeSequences=1
+vim.env.__SuppressAnsiEscapeSequences = 1
 
-vim.cmd.colorscheme('nanos') -- Colourscheme
+vim.opt.background = "dark"
+vim.cmd.colorscheme("nanos")
 --END-SETTINGS---
 
 --REMAPS--
@@ -58,7 +59,6 @@ vim.keymap.set("n", "<C-Down>", ":resize -2<CR>", { desc = "Decrease window heig
 vim.keymap.set("n", "<C-Left>", ":vertical resize -2<CR>", { desc = "Decrease window width" })
 vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width" })
 vim.keymap.set('n', '-', '<Plug>(nvim-dir-up)')
-
 --END-REMAPS--
 
 --PLUGINS--
@@ -288,24 +288,6 @@ vim.api.nvim_create_autocmd("WinEnter", {
         vim.fn.matchadd("NOTE", 'NOTE:')
     end,
     desc = "Make the matches for the nanos colorscheme Special Comments at every window"
-})
-
-vim.api.nvim_create_autocmd({ 'VimLeavePre' }, {
-    group = config_augroup,
-    pattern = { '*' },
-    callback = function()
-        local status = 0
-        for _, f in ipairs(vim.fn.globpath(vim.fn.stdpath('data') .. '/shada', '*tmp*', false, true)) do
-            if vim.tbl_isempty(vim.fn.readfile(f)) then
-                status = status + vim.fn.delete(f)
-            end
-        end
-        if status ~= 0 then
-            vim.notify('Could not delete empty temporary ShaDa files.', vim.log.levels.ERROR)
-            vim.fn.getchar()
-        end
-    end,
-    desc = "Delete empty temp ShaDa files"
 })
 
 -- Advanced :find, see :h fuzzy-file-picker
