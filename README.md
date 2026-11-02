@@ -9,10 +9,11 @@ yes
 - [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter.git): Syntax Highlighting
 - [nvim-treesitter/nvim-treesitter-context](https://github.com/nvim-treesitter/nvim-treesitter-context.git): Current code context
 - [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive): Git integration
+- [barrettruth/diffs.nvim](https://github.com/barrettruth/diffs.nvim): Better diff formatting
 
 Lazy loaded:
 - [nvim-mini/mini.test](https://github.com/nvim-mini/mini.test): Lua testing suite
--  [brianhuster/live-preview.nvim](https://github.com/brianhuster/live-preview.nvim): Live rendering of markdown files in browser 
+- [brianhuster/live-preview.nvim](https://github.com/brianhuster/live-preview.nvim): Live rendering of markdown files in browser 
 - [catgoose/nvim-colorizer.lua](https://github.com/catgoose/nvim-colorizer.lua): View colour codes
 - [danymat/neogen](https://github.com/danymat/neogen): Auto-generate doxygen data
 

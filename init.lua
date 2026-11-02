@@ -72,6 +72,7 @@ vim.pack.add({
     github .. "nvim-treesitter/nvim-treesitter",
     github .. "nvim-treesitter/nvim-treesitter-context",
     github .. "tpope/vim-fugitive",
+    github .. "barrettruth/diffs.nvim",
 })
 
 require("mason").setup()
@@ -80,6 +81,12 @@ require('mini.sessions').setup({
 })
 require("treesitter-context").setup({
     max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
+})
+
+require('markview').setup({
+    preview = {
+        hybrid_modes = { "n", "i", "v" },
+    }
 })
 
 vim.cmd.packadd('nohlsearch') -- Automatically turn off search highlighting
