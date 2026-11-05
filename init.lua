@@ -63,6 +63,7 @@ vim.keymap.set('n', '-', '<Plug>(nvim-dir-up)')
 
 --PLUGINS--
 local github = "https://github.com/"
+local codeberg = "https://codeberg.org/"
 
 vim.pack.add({
     github .. "neovim/nvim-lspconfig",
@@ -72,6 +73,7 @@ vim.pack.add({
     github .. "nvim-treesitter/nvim-treesitter",
     github .. "nvim-treesitter/nvim-treesitter-context",
     github .. "tpope/vim-fugitive",
+    -- codeberg .. "vi6jm/scry.nvim",
     github .. "barrettruth/diffs.nvim",
 })
 
@@ -86,8 +88,11 @@ require("treesitter-context").setup({
 require('markview').setup({
     preview = {
         hybrid_modes = { "n", "i", "v" },
+        -- linewise_hybrid_mode = true,
     }
 })
+
+-- require("scry").setup()
 
 vim.cmd.packadd('nohlsearch') -- Automatically turn off search highlighting
 vim.cmd.packadd('nvim.undotree')
@@ -199,9 +204,6 @@ vim.lsp.config("lua_ls", {
             },
         },
     },
-    on_attach = function ()
-        vim.api.nvim_set_hl(0, '@lsp.type.variable.lua', {})
-    end
 })
 
 -- Auto-enable LSPs
