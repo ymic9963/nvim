@@ -87,7 +87,7 @@ require("treesitter-context").setup({
 
 require('markview').setup({
     preview = {
-        hybrid_modes = { "n", "i", "v" },
+        hybrid_modes = { "n", "i", "v", "V" },
         linewise_hybrid_mode = true,
     }
 })
